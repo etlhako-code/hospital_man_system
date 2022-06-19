@@ -4,11 +4,9 @@ var bodyParser = require('body-parser');
 var db = require.main.require ('./models/db_controller');
 const { check, validationResult } = require('express-validator');
 
-
-
 router.get('*', function(req, res, next){
 	if(req.cookies['username'] == null){
-		res.redirect('/login');
+		res.send('/login');
 	}else{
 		next();
 	}
@@ -16,14 +14,10 @@ router.get('*', function(req, res, next){
 
 router.get('/',function(req,res){
     db.getAllemployee(function(err,result){
-        res.render('employee.ejs',{employee : result});
+        res.send({employee : result});
 
     });
    
-});
-
-router.get('/add',function(req,res){
-    res.render('add_employee.ejs');
 });
 
 router.post('/add',function(req,res){
@@ -36,26 +30,23 @@ router.post('/add',function(req,res){
 
     db.add_employee(name,email,contact,join_date,role,salary,function(err,result){
         console.log('employee inserted!!');
-        res.redirect('/employee');
+        res.send('employee added');
     });
 
 });
-
 
 router.get('/edit_employee/:id',function(req,res){
     var id = req.params.id;
     db.getEmpbyId(id,function(err,result){
 
-        res.render('edit_employee.ejs' ,{list : result});
+        res.send({list : result});
     });
 });
-
-
 
 router.post('/edit_employee/:id',function(req,res){
     var id = req.params.id;
     db.editEmp(id,req.body.name,req.body.email,req.body.contact,req.body.date,req.body.role,function(err,result){
-        res.redirect('/employee');
+        res.send('employee saved');
     });
 
 });
@@ -63,8 +54,7 @@ router.post('/edit_employee/:id',function(req,res){
 router.get('/delete_employee/:id',function(req,res){
     var id = req.params.id;
     db.getEmpbyId(id,function(err,result){
-
-        res.render('delete_employee.ejs' ,{list : result});
+        res.send({list : result});
     });
 });
 
@@ -72,7 +62,7 @@ router.post('/delete_employee/:id',function(req,res){
     var id = req.params.id;
     
     db.deleteEmp(id,function(err,result){
-        res.redirect('/employee');
+        res.send('employee deleted');
     });
 
 });
@@ -81,8 +71,7 @@ router.post('/search',function(req,res){
     var key = req.body.search;
     db.searchEmp(key,function(err,result){
         console.log(result);
-        
-        res.render('employee.ejs',{employee : result});
+        res.send({employee : result});
     });
 });
 
