@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var db = require.main.require ('./models/db_controller');
 const { check, validationResult } = require('express-validator');
 
@@ -17,7 +16,6 @@ router.get('/',function(req,res){
         res.send({employee : result});
 
     });
-   
 });
 
 router.post('/add',function(req,res){
@@ -27,12 +25,10 @@ router.post('/add',function(req,res){
     var join_date = req.body.date;
     var role = req.body.role;
     var salary = req.body.salary;
-
     db.add_employee(name,email,contact,join_date,role,salary,function(err,result){
         console.log('employee inserted!!');
         res.send('employee added');
     });
-
 });
 
 router.get('/edit_employee/:id',function(req,res){

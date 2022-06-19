@@ -41,7 +41,7 @@ router.post('/delete_appointment/:id',function(req,res){
     db.deleteappointment(id,function(err,result){
         if(!result) return res.send("")
         db.getappointmentbyid(id,function(err,reslt){
-    
+          res.send(reslt);
         })
     });
 })
