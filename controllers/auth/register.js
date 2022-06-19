@@ -11,7 +11,6 @@ const { check, validationResult } = require('express-validator');
 
 router.use(express.urlencoded({extended : true}));
 router.use(express.json());
-
 router.post('/',[check('username').notEmpty().withMessage("Username is required"),
 check('password').notEmpty().withMessage("Password is required"),
 check('email').notEmpty().isEmail().withMessage('Valid Email required')],function(req , res){
